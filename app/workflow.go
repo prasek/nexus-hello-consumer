@@ -5,9 +5,15 @@ import (
 	"go.temporal.io/sdk/workflow"
 )
 
+/*
+Note: We have tentative plans to include the endpoint name in a Nexus URI, so plan to restrict this to `^[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9]$` (subset of hostname RFC952) in the public preview timeframe, which will allow dashes.
+
+Use of _ is deprecated, and will be removing support for _ in endpoint names in public preview.
+*/
+
 const (
 	TaskQueue    = "my-caller-workflow-task-queue"
-	endpointName = "myendpoint"
+	endpointName = "myendpoint" // Use of _ is deprecated in endpoint names, see note above
 )
 
 func EchoCallerWorkflow(ctx workflow.Context, message string) (string, error) {
