@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/prasek/nexus-hello-api/service"
 	"go.temporal.io/sdk/workflow"
+	"time"
 )
 
 /*
@@ -19,7 +20,9 @@ const (
 func EchoCallerWorkflow(ctx workflow.Context, message string) (string, error) {
 	c := workflow.NewNexusClient(endpointName, service.HelloServiceName)
 
-	fut := c.ExecuteOperation(ctx, service.EchoOperationName, service.EchoInput{Message: message}, workflow.NexusOperationOptions{})
+	fut := c.ExecuteOperation(ctx, service.EchoOperationName, service.EchoInput{Message: message}, workflow.NexusOperationOptions{
+		ScheduleToCloseTimeout: 10 * time.Second,
+	})
 	var res service.EchoOutput
 
 	var exec workflow.NexusOperationExecution
